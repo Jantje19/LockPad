@@ -1,0 +1,330 @@
+button {
+	padding: 0;
+	width: 50px;
+	height: 50px;
+	border: none;
+	cursor: pointer;
+	position: relative;
+	background-color: transparent;
+}
+
+button.dash-fancy:after {
+	top: 0;
+	left: 0;
+	opacity: 0;
+	content: '';
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	border-radius: 100%;
+	will-change: opacity;
+	transition: opacity .3s ease;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+button.dash-fancy:not([disabled]):hover:after, button.dash-fancy:not([disabled]):focus:after {
+	opacity: 1;
+}
+
+
+button#addtohomescreen-btn {
+	right: 5px;
+	bottom: 5px;
+	width: 200px;
+	z-index: 1000;
+	display: none;
+	position: fixed;
+	box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Main */
+header {
+	padding: 5px;
+	display: grid;
+	align-items: center;
+	grid-column-gap: 10px;
+	justify-content: center;
+	grid-template-columns: 100px 1fr 50px;
+	background-color: var(--primary-color);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+header > div {
+	display: flex;
+	flex-direction: row;
+}
+
+header > div i {
+	color: var(--font-color-light);
+}
+
+header > div input {
+	width: 100%;
+	border: none;
+	max-width: 200px;
+	padding: 5px 10px;
+	border-radius: 100px;
+}
+
+header > div > button:disabled {
+	opacity: .3;
+}
+
+header > div > button#user-icon img {
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	background-color: white;
+}
+
+header > div > div#user-popup {
+	top: 70px;
+	right: 5px;
+	z-index: 100;
+	display: none;
+	padding: 5px 10px;
+	position: absolute;
+	background-color: white;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+header > div > div#user-popup > h3 {
+	padding: 5px 0;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+header > div > div#user-popup button {
+	width: 100%;
+	height: auto;
+	text-align: left;
+	padding: 10px 5px;
+	will-change: transform;
+	transition: transform .3s ease;
+}
+
+header > div > div#user-popup button:hover {
+	transform: translateX(5px);
+}
+
+
+main {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: center;
+	height: calc(100% - 60px);
+}
+
+main > div {
+	flex: 1;
+	height: 100%;
+	display: flex;
+	overflow: auto;
+	flex-wrap: wrap;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+}
+
+main > div#server-save {
+	flex-grow: 2;
+}
+
+main > div#server-save > p > a {
+	color: var(--accent-color-font-dark);
+}
+
+main > div#local-save {
+	border: none;
+	flex-shrink: 1;
+	border-right: 1px solid darkgray;
+}
+
+main > div#local-save > div.loader {
+	margin: 0;
+}
+
+main > div#markdown {
+	flex: 1;
+	height: 90%;
+	padding: 5px;
+	margin: 0 1%;
+	display: block;
+	text-align: left;
+	overflow-y: auto;
+	background-color: white;
+}
+
+main > div#textarea-container {
+	flex: 1;
+	display: block;
+	margin-top: 5%;
+}
+
+main > div#textarea-container > input {
+	margin-bottom: 5px;
+}
+
+main > div#textarea-container > textarea {
+	width: 90%;
+	height: 80%;
+}
+
+main textarea {
+	flex: 1;
+	padding: 0;
+	height: 90%;
+	padding: 5px;
+	margin: 0 1%;
+	border: none;
+	border-right: 1px darkgray solid;
+}
+
+main > div > div.note {
+	width: 20%;
+	margin: 5%;
+	height: 30%;
+	cursor: pointer;
+	text-align: left;
+	overflow: hidden;
+	max-height: 200px;
+	padding: 10px 25px;
+	padding-left: 30px;
+	position: relative;
+	text-overflow: ellipsis;
+	background-color: white;
+	will-change: transform, box-shadow;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	transition: transform .3s ease, box-shadow .3s ease;
+}
+
+main > div > div.note[disabled] {
+	opacity: .3;
+	cursor: default;
+	animation: pulse 1s ease infinite;
+}
+
+main > div > div.note[grow] {
+	left: 5%;
+	top: 90px;
+	width: 80%;
+	margin: 0px;
+	z-index: 10;
+	max-height: unset;
+	position: absolute;
+	will-change: unset;
+	height: calc(80% - 55px);
+}
+
+main > div > div.note:not([disabled]):not([grow]):hover, main > div > div.note:not([disabled]):not([grow]):focus {
+	transform: translateY(-5px) scale(1.05);
+	box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+main > div > div.note > h3 {
+	margin: 0;
+	overflow: hidden;
+	font-size: 1.3em;
+	font-weight: bold;
+	padding-bottom: 10px;
+	text-overflow: ellipsis;
+	border-bottom: 1px solid darkgray;
+	font-family: 'Roboto', 'Segoe UI', 'Arial', sans-serif;
+}
+
+main > div > div.note > input[type=checkbox] {
+	top: 5px;
+	left: 5px;
+	position: absolute;
+}
+
+main > div > div.note > button {
+	top: 0;
+	right: 0;
+	opacity: .5;
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	will-change: opacity;
+	transition: opacity .3s ease;
+}
+
+main > div > div.note > button:hover {
+	opacity: 1;
+}
+
+main > div > div.note > div.markdown-body {
+	--scale: .6;
+	overflow-y: auto;
+	height: calc(100% - (1.3em + 10px + 1px));
+}
+
+/* Scrollbars */
+main > div > div.note > div.markdown-body::-webkit-scrollbar {
+	width: 3px;
+	height: auto;
+	background-color: transparent;
+}
+
+main > div > div.note > div.markdown-body::-webkit-scrollbar-thumb {
+	height: 30%;
+	cursor: pointer;
+	transition: background-color 1s ease;
+	background-color: var(--accent-color);
+}
+
+main > div > div.note > div.markdown-body::-webkit-scrollbar-thumb:hover {
+	background-color: var(--accent-color-light);
+}
+
+
+@media screen and (max-width: 670px) {
+	main {
+		flex-direction: column;
+	}
+
+	main > div {
+		width: 100%;
+		height: unset;
+	}
+
+	main > div#local-save {
+		border: none;
+		border-bottom: 1px solid darkgray;
+	}
+
+	main > div > div.note {
+		height: 50%;
+	}
+
+	main > div#markdown {
+		width: 88%;
+		flex: unset;
+		max-height: 20vh;
+		margin-top: 10px;
+		padding: 20px 10px;
+		align-items: unset;
+		justify-content: unset;
+	}
+
+	main > textarea {
+		margin: 0;
+		width: 95%;
+		flex: unset;
+		padding: 2px;
+		margin-top: 10px;
+		min-height: 300px;
+		height: calc(55vh - 65px);
+		border: 1px darkgray solid;
+	}
+}
+
+
+/* Animations */
+@keyframes pulse {
+	0% { opacity: .3; }
+	50% { opacity: .6; }
+	100% { opacity: .3; }
+}

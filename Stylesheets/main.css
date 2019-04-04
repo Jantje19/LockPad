@@ -1,0 +1,161 @@
+/* reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/* Variables */
+:root {
+	--primary-color: #27ae60;
+	--primary-color-light: #2ecc71;
+
+	--accent-color: #f39c12;
+	--accent-color-light: #f1c40f;
+	--accent-color-font-dark: #B6750D;
+
+	--font-color: #34495e;
+	--font-color-light: #ecf0f1;
+
+	--background-color: #ecf0f1;
+	--background-color-dark: #bdc3c7;
+}
+
+/* Main */
+body {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	color: var(--font-color);
+	background-color: var(--background-color);
+	font-family: 'Roboto Light', 'Segoe UI', 'Arial', sans-serif;
+}
+
+button.fancy-btn {
+	margin: 10px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	overflow: hidden;
+	font-weight: bold;
+	padding: 10px 15px;
+	position: relative;
+	border-radius: 100px;
+	box-sizing: border-box;
+	will-change: transform;
+	text-overflow: ellipsis;
+	color: var(--font-color-light);
+	background-color: var(--accent-color);
+}
+
+button.fancy-btn:before {
+	top: 0;
+	left: 0;
+	width: 100%;
+	content: '';
+	z-index: -1;
+	height: 100%;
+	display: block;
+	position: absolute;
+	border-radius: 100px;
+	will-change: transform;
+	transform: translateX(-100%);
+	transition: transform .3s ease;
+	background-color: var(--accent-color-light);
+}
+
+button.fancy-btn:not([disabled]):hover:before, button:not([disabled]):focus:before {
+	transform: translateX(0px);
+}
+
+a {
+	text-decoration: none;
+	transition: color .2s ease;
+	color: var(--accent-color-light);
+}
+
+a:hover, a:focus {
+	text-decoration: underline;
+	color: var(--font-color-dark);
+}
+
+
+b {
+	font-weight: bold;
+}
+
+
+i {
+	font-style: italic;
+}
+
+
+noscript {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	position: fixed;
+	z-index: 1000000;
+	align-items: center;
+	background-color: white;
+	justify-content: center;
+}
+
+noscript > div > h1 {
+	font-size: 3em;
+	text-align: center;
+	padding-bottom: 30px;
+}
+
+noscript > div > p {
+	font-size: 1.4em;
+	line-height: 1.4em;
+	text-align: center;
+}
+
+main {
+	overflow: hidden;
+}

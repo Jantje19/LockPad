@@ -1,0 +1,192 @@
+header {
+	width: 100%;
+	height: 80vh;
+	display: flex;
+	align-items: center;
+	background-size: cover;
+	justify-content: center;
+	background-repeat: no-repeat;
+	background-position: top left;
+	box-shadow: 0 0 50vw rgba(0, 0, 0, 0.3) inset;
+	background-image: url('../Assets/background.svg');
+}
+
+header > div {
+	text-align: center;
+	color: var(--font-color-light);
+}
+
+header > div > img#icon {
+	width: auto;
+	height: 20vh;
+	display: none;
+	margin-bottom: 8vh;
+	border-radius: 100%;
+	box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+}
+
+header > div > h1 {
+	font-size: 5em;
+	margin-bottom: 10%;
+	letter-spacing: 2px;
+	font-family: 'Roboto Black';
+	text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+header > div > p {
+	width: 90%;
+	margin: auto;
+	font-size: 2em;
+	line-height: 1.2em;
+}
+
+header > div > div button {
+	overflow: hidden;
+	font-size: 1.3em;
+	padding: 10px 15px;
+	position: relative;
+	will-change: transform;
+	transform: translateY(50px);
+	transition: transform .3s ease;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+header > div > div button#login {
+	background-color: rgba(255, 255, 255, .3);
+}
+
+header > div > div button#login:before {
+	background-color: rgba(255, 255, 255, .5);
+}
+
+header > div button:hover, header > div button:focus {
+	transform: translateY(48px) scale(1.05);
+}
+
+main > div {
+	padding: 10%;
+}
+
+main > div:nth-child(even) {
+	background-color: var(--background-color-dark);
+}
+
+
+main > div h2 {
+	font-size: 2.2em;
+	font-weight: 600;
+	/*text-align: center;*/
+	letter-spacing: 5px;
+	text-transform: uppercase;
+}
+
+main > div p {
+	padding: 8% 0;
+	font-size: 1.5em;
+	line-height: 1.7em;
+}
+
+main > div img {
+	width: 80%;
+	height: auto;
+}
+
+main > div.splitview-container {
+	display: flex;
+}
+
+main > div.splitview-container > div {
+	flex: 1;
+}
+
+main > div.splitview-container > div:first-child {
+	flex-grow: 2;
+}
+
+main > div.splitview-container > div:last-child {
+	padding: 0;
+	display: flex;
+	flex-shrink: 2;
+	position: relative;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+main > div#about.splitview-container > div:last-child img {
+	transform: rotate(10deg);
+}
+
+main > div#security.splitview-container > div:last-child img {
+	border-radius: 100%;
+}
+
+main > div#contact {
+	text-align: center;
+}
+
+main > div#contact > div {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+
+@media screen and (max-width: 660px) {
+	header > div > h1 {
+		font-size: 3em;
+	}
+
+	header > div > p {
+		font-size: 100%;
+	}
+
+	header > div > button {
+		font-size: 13px;
+		padding: 10px 15px;
+	}
+
+	main > div p {
+		font-size: 1.1em;
+		line-height: 1.5em;
+	}
+
+	main > div#contact {
+		text-align: left;
+	}
+}
+
+@media screen and (max-width: 420px) {
+	header {
+		height: 90vh;
+		background-position: center;
+	}
+
+	header > div > p {
+		margin: 0 5%;
+	}
+
+	header > div > img#icon {
+		display: initial;
+	}
+
+	main > div {
+		padding: 15% 10%;
+		padding-top: 20%;
+	}
+
+	main > div p {
+		margin-top: 5%;
+	}
+
+	main > div h2 {
+		text-align: center;
+	}
+
+	main > div button {
+		display: flex;
+	}
+
+	main > div.splitview-container > div:last-child {
+		display: none;
+	}
+}

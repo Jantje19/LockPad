@@ -1,0 +1,37 @@
+#frosted-glass {
+	width: 80vw;
+	max-width: unset;
+}
+
+#frosted-glass > div h1 {
+	padding: 20px 0;
+	margin-bottom: 5%;
+}
+
+#frosted-glass > div > div {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+#frosted-glass > div > div p {
+	flex: 1;
+	width: 40vw;
+	margin: .5em 0;
+	display: block;
+	padding: initial;
+	text-align: left;
+	font-weight: unset;
+	background-color: transparent;
+	color: var(--font-color-light);
+}
+
+#frosted-glass > div > div p:first-child {
+	text-align: center;
+}
+
+@media screen and (max-width: 420px) {
+	#frosted-glass > div > div p {
+		width: 80%;
+	}
+}

@@ -1,0 +1,19 @@
+#frosted-glass {
+	height: 90%;
+}
+
+#frosted-glass > div h1 {
+	padding: 5% 0;
+	margin-bottom: 10px;
+}
+
+#frosted-glass > div p {
+	margin: 0;
+	font-size: 1.2em;
+	margin-bottom: 10px;
+}
+
+#frosted-glass > div details {
+	cursor: pointer;
+	color: var(--font-color-light);
+}

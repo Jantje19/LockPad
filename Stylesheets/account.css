@@ -1,0 +1,133 @@
+main {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+main, #frosted-glass {
+	overflow: hidden;
+	position: absolute;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-image: url(../Assets/background.svg);
+}
+
+#frosted-glass {
+	width: 50%;
+	height: 80%;
+	display: flex;
+	max-width: 333px;
+	overflow: hidden;
+	border-radius: 5px;
+	align-items: center;
+	justify-content: center;
+}
+
+#frosted-glass:after {
+	top: -5%;
+	right: 0;
+	left: -5%;
+	bottom: 0;
+	opacity: 0;
+	width: 110%;
+	height: 110%;
+	content: " ";
+	position: absolute;
+	background: inherit;
+}
+
+#frosted-glass:after {
+	opacity: 1;
+	filter: blur(10px);
+	box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.2);
+}
+
+#frosted-glass > div {
+	z-index: 1;
+	width: 100%;
+	text-align: center;
+}
+
+#frosted-glass > div h1 {
+	padding: 20% 0;
+	font-size: 2em;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: var(--font-color-light);
+}
+
+#frosted-glass > div p {
+	font-size: 1.4em;
+	margin-top: -10%;
+	margin-bottom: 5%;
+	color: var(--font-color-light);
+}
+
+#frosted-glass > div p#server_message {
+	padding: 5%;
+	display: none;
+	font-size: 1em;
+	font-weight: bold;
+	background-color: white;
+	color: var(--accent-color);
+}
+
+#frosted-glass > div > a {
+	color: var(--font-color-light);
+}
+
+#frosted-glass > div > form {
+	margin: 0 20%;
+	text-align: center;
+	will-change: opacity;
+	transition: opacity .3s ease;
+}
+
+#frosted-glass > div > form#twoFAForm {
+	opacity: 0;
+	display: none;
+}
+
+#frosted-glass > div > form > * {
+	width: 100%;
+	margin: 5% 0;
+	transition: opacity .3s ease;
+}
+
+#frosted-glass > div > form > *:disabled {
+	opacity: .3;
+}
+
+#frosted-glass > div > form > input {
+	border: none;
+	padding: 5% 0;
+	text-align: center;
+	border-radius: 200px;
+	color: var(--font-color-dark);
+	background-color: rgba(255, 255, 255, .8);
+	transition: background-color .3s ease, opacity .3s ease;
+}
+
+#frosted-glass > div > form > input:focus {
+	background-color: white;
+}
+
+#frosted-glass > div > form > button {
+	margin: 0;
+	margin: 10% 0;
+	display: block;
+}
+
+@media screen and (max-width: 420px) {
+	#frosted-glass {
+		width: 80vw;
+		height: 70vh;
+		max-width: unset;
+	}
+}
