@@ -95,18 +95,23 @@ if (isset($data)) {
 				<img alt="Logo" src="Assets/icon.svg">
 			</div>
 		</div>
-		<div id="contact">
-			<h2>Contact</h2>
-			<p>
-				Do you have any questions or remarks feel free to reach out to us.
-				<br>
-				We would like to hear from you.
-			</p>
-
+		<div id="opensource" class="splitview-container">
 			<div>
-				<a href="https://facebook.com"><button class="fancy-btn">Facebook</button></a>
-				<a href="https://instagram.com"><button class="fancy-btn">Instagram</button></a>
-				<a href="https://youtube.com"><button class="fancy-btn">Youtube</button></a>
+				<h2>Open Source</h2>
+				<p>
+					LockPad is entirely opensource. This way you can varify and ensure that what we say happens is actually happening and that our code is secure.
+					<br>
+					<br>
+					Go ahead take a look!
+				</p>
+				<a target="_blank" href="https://github.com/jantje19/LockPad">
+					<button class="fancy-btn">GitHub</button>
+				</a>
+			</div>
+			<div>
+				<a target="_blank" href="https://github.com/jantje19/LockPad">
+					<img alt="GitHub" src="Assets/ic_github_black.svg">
+				</a>
 			</div>
 		</div>
 	</main>
