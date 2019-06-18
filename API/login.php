@@ -28,8 +28,6 @@ else
 include 'db_connect.php';
 
 function doAuth($token, $expdate, $enc_token, $enc_iv) {
-	// TODO: uncomment this
-	// setcookie("auth", $token, time() + 3600, "/", "i409738.hera.fhict.nl", true);
 	setcookie("auth", $token, $expdate, "/");
 	echo '{"success": true, "data": { "enc_token": "' . $enc_token . '", "enc_iv": "' . $enc_iv . '" }}';
 	exit();

@@ -20,6 +20,8 @@ toolbox.precache([
 	]);
 
 toolbox.router.get('/dashboard.php', toolbox.networkFirst);
+toolbox.router.get('/edit.php', toolbox.networkFirst);
+
 toolbox.router.get('*', (...args) => {
 	if (navigator.onLine)
 		return toolbox.fastest(...args);

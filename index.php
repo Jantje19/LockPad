@@ -72,7 +72,7 @@ if (isset($data)) {
 					LockPad is "A note taking app you can take everywhere™️".
 					<br>
 					<br>
-					With the power of the web you can access your notes everywhere at every time on every device with a web browser.
+					With the power of the web you can access your notes everywhere at any time on every device with a web browser.
 					<br>
 					You can even use this app offline!
 				</p>
@@ -99,7 +99,7 @@ if (isset($data)) {
 			<div>
 				<h2>Open Source</h2>
 				<p>
-					LockPad is entirely opensource. This way you can varify and ensure that what we say happens is actually happening and that our code is secure.
+					LockPad is entirely opensource. This way you can verify and ensure that what we say happens is actually happening and that our code is secure.
 					<br>
 					<br>
 					Go ahead take a look!
