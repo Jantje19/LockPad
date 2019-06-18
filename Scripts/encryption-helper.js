@@ -42,7 +42,7 @@ const bytesToString = bytes => {
 	return btoa(String.fromCharCode(...bytes));
 }
 
-const functions = {
+const oldFunctions = {
 	encrypt: data => {
 		if ('password' in data && 'text' in data) {
 			if (!('iv' in data))
@@ -62,17 +62,146 @@ const functions = {
 			return {data: CryptoJS.AES.decrypt(data.data, data.password, { iv: data.iv }).toString(CryptoJS.enc.Utf8)};
 		else
 			return {err: 'Insufficient data provided'};
+	}
+}
+
+
+/* https://gist.github.com/gala132/2bbd7907cc36b8a9779e922570d1ab85 */
+/**
+* Encodes a utf8 string as a byte array.
+* @param {String} str
+* @returns {Uint8Array}
+*/
+function str2buf(str) {
+	return (new TextEncoder("utf-8")).encode(str);
+}
+
+/**
+* Decodes a byte array as a utf8 string.
+* @param {Uint8Array} buffer
+* @returns {String}
+*/
+function buf2str(buffer) {
+	return (new TextDecoder("utf-8")).decode(buffer);
+}
+
+/**
+* Decodes a string of hex to a byte array.
+* @param {String} hexStr
+* @returns {Uint8Array}
+*/
+function hex2buf(hex) {
+	const view = new Uint8Array(hex.length / 2)
+
+	for (var i = 0; i < hex.length; i += 2) {
+		view[i / 2] = parseInt(hex.substring(i, i + 2), 16)
+	}
+
+	return view.buffer;
+}
+
+/**
+* Encodes a byte array as a string of hex.
+* @param {Uint8Array} buffer
+* @returns {String}
+*/
+function buf2hex(buffer) {
+	return Array.prototype.slice
+	.call(new Uint8Array(buffer))
+	.map(x => [x >> 4, x & 15])
+	.map(ab => ab.map(x => x.toString(16)).join(""))
+	.join("");
+}
+
+/**
+* Given a passphrase, this generates a crypto key
+* using `PBKDF2` with SHA512 and 10000 iterations.
+* If no salt is given, a new one is generated.
+* The return value is an array of `[key, salt]`.
+* @param {String} passphrase
+* @param {UInt8Array} salt [salt=random bytes]
+* @returns {Promise<[CryptoKey,UInt8Array]>}
+*/
+function deriveKey(passphrase, salt) {
+	salt = salt || crypto.getRandomValues(new Uint8Array(64));
+
+	return crypto.subtle
+	.importKey("raw", str2buf(passphrase), "PBKDF2", false, ["deriveKey"])
+	.then(key =>
+		crypto.subtle.deriveKey(
+			{ name: "PBKDF2", salt, iterations: 10000, hash: "SHA-512" },
+			key,
+			{ name: "AES-CBC", length: 256 },
+			false,
+			["encrypt", "decrypt"],
+			),
+		)
+	.then(key => [key, salt]);
+}
+
+const newFunctions = {
+	/*
+	* Given a passphrase and some plaintext, this derives a key
+	* (generating a new salt), and then encrypts the plaintext with the derived
+	* key using AES-CBC. The ciphertext and salt are hex encoded and joined
+	* by a "-". So the result is `"salt-ciphertext"`.
+	* @param {String} passphrase
+	* @param {String} plaintext
+	* @returns {Promise<Object>}
+	*/
+	encrypt: async data => {
+		if ('password' in data && 'text' in data) {
+			if (!('iv' in data))
+				data.iv = randomValues(16);
+
+			const [key, salt] = await deriveKey(data.password);
+			const ciphertext = await crypto.subtle.encrypt({ name: "AES-CBC", iv: data.iv }, key, str2buf(data.text));
+
+			return {
+				data: `${buf2hex(salt)}-${buf2hex(ciphertext)}`,
+				iv: buf2hex(data.iv)
+			}
+		} else {
+			return {err: 'No password or text'};
+		}
 	},
 
-	hashPass: data => {
-		// TODO: This doesn't work
-		/*console.log(data);
-		const { password, salt = bytesToString(randomValues()) } = data;
-		const keySize = 512 / 32;
-		const iterations = 1000;
+	/*
+	* Given a key and ciphertext (in the form of a string) as given by `encrypt`,
+	* this decrypts the ciphertext and returns the original plaintext
+	* @param {String} passphrase
+	* @param {String} saltIvCipherHex
+	* @returns {Promise<String>}
+	*/
+	decrypt: async data => {
+		if ('password' in data && 'iv' in data && 'data' in data) {
+			const [salt, str] = data.data.split('-').map(hex2buf);
+			const [key] = await deriveKey(data.password, salt);
+			const decryptedVal = await crypto.subtle.decrypt({
+				name: "AES-CBC",
+				iv: hex2buf(data.iv)
+			}, key, str);
 
-		const key = CryptoJS.PBKDF2(password, salt, { keySize, iterations });
-		return salt + "$" + iterations + "$" + keySize + "$" + key;*/
+			return {
+				data: buf2str(new Uint8Array(decryptedVal))
+			}
+		} else {
+			return {err: 'Insufficient data provided'};
+		}
+	}
+}
+
+const functions = {
+	encrypt: newFunctions.encrypt,
+
+	decrypt: data => {
+		if (!data.data)
+			return {err: 'Insufficient data provided'};
+
+		if (data.data.indexOf('-') < 1)
+			return oldFunctions.decrypt(data);
+		else
+			return newFunctions.decrypt(data);
 	},
 
 	randomString: data => {
@@ -80,6 +209,14 @@ const functions = {
 			return {data : bytesToString(randomValues(data.length))};
 		else
 			return {data : bytesToString(randomValues())};
+	},
+
+	sha512: str => {
+		return new Promise(async (resolve, reject) => {
+			resolve({
+				data: buf2hex(await crypto.subtle.digest('SHA-512', str2buf(str)))
+			});
+		});
 	}
 }
 
@@ -93,10 +230,28 @@ onmessage = evt => {
 		});
 	} else {
 		if (func in functions) {
-			postMessage({
-				data: functions[func](evt.data.data),
-				token: evt.data.token
-			});
+			const data = functions[func](evt.data.data);
+
+			if (data instanceof Promise) {
+				data.then(data => {
+					postMessage({
+						token: evt.data.token,
+						data: data
+					});
+				}).catch(err => {
+					postMessage({
+						token: evt.data.token,
+						data: {
+							err: 'Promise error: ' + err
+						}
+					});
+				});
+			} else {
+				postMessage({
+					token: evt.data.token,
+					data
+				});
+			}
 		} else {
 			postMessage({
 				token: evt.data.token,
