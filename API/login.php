@@ -28,7 +28,7 @@ else
 include 'db_connect.php';
 
 function doAuth($token, $expdate, $enc_token, $enc_iv) {
-	setcookie("auth", $token, $expdate, "/");
+	setcookie("auth", $token, time() + 3600, "/");
 	echo '{"success": true, "data": { "enc_token": "' . $enc_token . '", "enc_iv": "' . $enc_iv . '" }}';
 	exit();
 }
