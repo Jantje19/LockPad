@@ -1,7 +1,4 @@
 const errorHandler = console.error;
-const bytesToString = bytes => {
-	return btoa(String.fromCharCode(...bytes));
-}
 
 // Check session value
 if (sessionStorage.getItem('enc_token') === null)
@@ -162,14 +159,14 @@ Promise.all([
 			const obj = await localforage.getItem('local');
 			const item = obj[token];
 			const postObj = {
-				'content-iv': bytesToString(item.content.iv),
+				'content-iv': item.content.iv,
 				content: item.content.data,
 				created: item.created,
 				edited: item.edited
 			};
 
 			if (item.title) {
-				postObj['title-iv'] = bytesToString(item.title.iv);
+				postObj['title-iv'] = item.title.iv;
 				postObj.title = item.title.data;
 			}
 
