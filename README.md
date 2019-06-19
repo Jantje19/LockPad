@@ -43,6 +43,7 @@ the web-app allowed the users to find and create their own notes so that they ne
 - ``<noscript>`` for ensuring JavaScript
 - [2FA](https://github.com/RobThree/TwoFactorAuth) for the 2FA-authentication
 - [CryptoJS](https://code.google.com/archive/p/crypto-js/) for cryptography
+- [Browser native crypto](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto) for the new cryptography
 - [Showdown](https://github.com/showdownjs/showdown) for Markdown parsing
 - [Gravatar](https://gravatar.com) for the user avatar
 - [Identicons](https://identicon-1132.appspot.com) user avatar backup
