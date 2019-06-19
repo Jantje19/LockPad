@@ -26,6 +26,13 @@ else
 	invalidPost('enc_iv');
 
 
+include 'password_helper.php';
+if (!checkCapcha()) {
+	echo '{"success": false, "error": "Invalid capcha"}';
+	exit();
+}
+
+
 // Actual code
 function sendMail($mail, $token) {
 	$headers = "From: i409738@hera.fhict.nl\r\n";
@@ -40,7 +47,6 @@ function sendMail($mail, $token) {
 
 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 	if (strlen($password) > 0 && strlen($email) > 0) {
-		include 'password_helper.php';
 		include 'db_connect.php';
 
 		$password = prepareForDatabase($password);

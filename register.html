@@ -39,6 +39,8 @@
 	<meta name="theme-color" content="#27ae60">
 	<meta name="apple-mobile-web-app-status-bar-style" content="#27ae60"/>
 
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 	<script type="text/javascript" src="/Scripts/workerPromisify.js"></script>
 	<script type="text/javascript" src="/Scripts/helpers.js"></script>
 	<script type="text/javascript" src="/Scripts/Pages/register.js"></script>
@@ -55,6 +57,7 @@
 					<input type="email" name="email" autofocus="autofocus" placeholder="E-Mail">
 					<input type="password" name="pass" placeholder="Password">
 					<input type="password" name="pass-ver" placeholder="Password (verification)">
+					<div class="g-recaptcha" data-sitekey="[[RECAPTCHA_KEY]]"></div>
 					<button class="fancy-btn">Create</button>
 				</form>
 

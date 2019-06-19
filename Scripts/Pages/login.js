@@ -79,7 +79,10 @@ Promise.all([
 		const password = passElem.value.trim();
 		const email = emailElem.value.trim();
 
-		phpPostRequest('get_password_salt', { email }).then(passSalt => {
+		phpPostRequest('get_password_salt', {
+			'g-recaptcha-response': grecaptcha.getResponse(),
+			email
+		}).then(passSalt => {
 			passSalt = passSalt.data;
 
 			if (!passSalt.success)

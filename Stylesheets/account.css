@@ -55,7 +55,7 @@ main, #frosted-glass {
 }
 
 #frosted-glass > div h1 {
-	padding: 20% 0;
+	padding: 10% 0;
 	font-size: 2em;
 	font-weight: bold;
 	text-transform: uppercase;
@@ -122,6 +122,10 @@ main, #frosted-glass {
 	margin: 0;
 	margin: 10% 0;
 	display: block;
+}
+
+#frosted-glass > div > form > .g-recaptcha > div {
+	margin-left: -25%;
 }
 
 @media screen and (max-width: 420px) {

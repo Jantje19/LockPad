@@ -82,10 +82,11 @@ Promise.all([
 					]).then(([hashPass, data]) => {
 						// Make a post request for creating an account
 						phpPostRequest('create_account', {
+							'g-recaptcha-response': grecaptcha.getResponse(),
 							email: emailElem.value,
 							'enc_token': data.data,
 							'enc_iv': data.iv,
-							pass: hashPass
+							pass: hashPass,
 						}).then(({ data }) => {
 							if (!data.success)
 								errHandler(data.error);

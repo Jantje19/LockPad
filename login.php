@@ -43,6 +43,8 @@ $data = check();
 	<meta name="theme-color" content="#27ae60">
 	<meta name="apple-mobile-web-app-status-bar-style" content="#27ae60"/>
 
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 	<script type="text/javascript" src="/Scripts/workerPromisify.js"></script>
 	<script type="text/javascript" src="/Scripts/helpers.js"></script>
 	<script type="text/javascript" src="/Scripts/Pages/login.js"></script>
@@ -54,10 +56,11 @@ $data = check();
 		<div id="frosted-glass">
 			<div>
 				<h1>Log in</h1>
-				<p id="server_message"></p>
+				<p id="server_message" style="margin: 0; margin-bottom: 5px;"></p>
 				<form target="#" onsubmit="event.preventDefault();">
 					<input type="email" name="email" autofocus="autofocus" placeholder="E-Mail" autocomplete="username">
 					<input type="password" name="pass" placeholder="Password" autocomplete="current-password">
+					<div class="g-recaptcha" data-sitekey="[[RECAPTCHA_KEY]]"></div>
 					<button class="fancy-btn">Log in</button>
 				</form>
 				<form target="#" onsubmit="event.preventDefault();" id="twoFAForm">

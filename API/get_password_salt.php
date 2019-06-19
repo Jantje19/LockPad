@@ -13,6 +13,12 @@ else
 	invalidPost('email');
 
 include 'db_connect.php';
+include 'password_helper.php';
+
+if (!checkCapcha()) {
+	echo '{"success": false, "error": "Invalid capcha"}';
+	exit();
+}
 
 $preparedStatement = $conn->prepare("SELECT password FROM user WHERE email=?");
 if ($preparedStatement) {
@@ -26,8 +32,6 @@ if ($preparedStatement) {
 			if (strpos($dbPass, '[[PBKDF2]]') !== 0)
 				echo '{"success": true, "data": false}';
 			else {
-				include 'password_helper.php';
-
 				$salt = getPBKDF2Salt($dbPass);
 				echo '{"success": true, "data": true, "salt": "' . $salt . '"}';
 			}
