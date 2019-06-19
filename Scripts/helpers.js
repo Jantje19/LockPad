@@ -51,3 +51,34 @@ const logout = async () => {
 	// Redirect to login page
 	window.location = '/login.php?from=logout';
 }
+
+const hashPassword = async (pass, encryptionHelper, salt) => {
+	return '[[PBKDF2]]' + (await encryptionHelper.PBKDF2KeyExport({ pass, salt })).data;
+}
+
+const checkPassword = async password => {
+	const buf2hex = buffer => {
+		return Array.prototype.slice
+		.call(new Uint8Array(buffer))
+		.map(x => [x >> 4, x & 15])
+		.map(ab => ab.map(x => x.toString(16)).join(""))
+		.join("");
+	}
+
+	if (password.length < 10)
+		return 'Password contains less than 10 characters';
+	if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/))
+		return 'Password must contain at least one lower-case character, upper-case character, number, special character (!@#$%^&*)';
+
+	// Check 'HaveIBeenPwned': https://haveibeenpwned.com/API/v2#PwnedPasswords
+	const sha1 = buf2hex(await crypto.subtle.digest('SHA-1', (new TextEncoder("utf-8")).encode(password)));
+	const resp = await fetch('https://api.pwnedpasswords.com/range/' + sha1.substr(0, 5));
+	const findVal = (await resp.text()).split('\r\n').find(str => {
+		return str.startsWith(sha1);
+	});
+
+	if (findVal)
+		return 'The password was found in the \'haveibeenpwned.com\' database. Therefore you are not allowed to use it';
+
+	return true;
+}

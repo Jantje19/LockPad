@@ -44,16 +44,18 @@ $data = check();
 	<meta name="apple-mobile-web-app-status-bar-style" content="#27ae60"/>
 
 	<script type="text/javascript" src="/Scripts/helpers.js"></script>
+	<script type="text/javascript" src="/Scripts/workerPromisify.js"></script>
 	<script type="text/javascript" src="/Scripts/Pages/changepassword.js"></script>
 
 </head>
 <body>
 
 	<main>
-		<div id="frosted-glass">
+		<div id="frosted-glass" style="height: 85%;">
 			<div>
-				<h1>Change password</h1>
-				<p><?php echo $data[1]; ?></p>
+				<h1 style="padding-top: 10%;">Change password</h1>
+				<p id="email"><?php echo $data[1]; ?></p>
+				<p id="server_message" style="margin-top: 10px"></p>
 				<form target="#" onsubmit="event.preventDefault();">
 					<input type="password" id="old-pass" autofocus="autofocus" placeholder="Current password">
 					<input type="password" id="new-pass" placeholder="New password">

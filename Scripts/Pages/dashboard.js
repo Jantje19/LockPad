@@ -295,6 +295,13 @@ Promise.all([
 		}
 	});
 
+	const passMessageCloseBtn = document.getElementById('pass-message-close');
+	if (passMessageCloseBtn) {
+		passMessageCloseBtn.addEventListener('click', evt => {
+			evt.currentTarget.parentNode.remove();
+		}, { once: true });
+	}
+
 	searchElem.addEventListener('change', evt => {
 		const searchVal = evt.currentTarget.value.trim().toLowerCase();
 		const elemArr = mainElem.querySelectorAll('div.note');

@@ -25,6 +25,7 @@ else
 	$twoFA = null;
 
 // Actual code
+include 'password_helper.php';
 include 'db_connect.php';
 
 function doAuth($token, $expdate, $enc_token, $enc_iv) {
@@ -82,7 +83,7 @@ if ($preparedStatement) {
 
 		if ($fetch) {
 			if ($verified == true) {
-				if (password_verify($password, $dbPass)) {
+				if (checkPassword($password, $dbPass)) {
 					if ($server2FASecret) {
 						if ($twoFA) {
 							$timeprovider = new RobThree\Auth\Providers\Time\HttpTimeProvider();

@@ -1,6 +1,7 @@
 <?php
 include 'API/account_verifier.php';
 $data = check();
+$conn = $data[0];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,13 +76,29 @@ $data = check();
 		</div>
 	</header>
 
+	<?php
+	$preparedStatement = $conn->prepare("SELECT password FROM user WHERE email=?");
+	if ($preparedStatement) {
+		$preparedStatement->bind_param("s", $data[1]);
+		if ($preparedStatement->execute()) {
+			$preparedStatement->bind_result($dbPass);
+			$fetch = $preparedStatement->fetch();
+			$preparedStatement->close();
+
+			if ($fetch) {
+				if (strpos($dbPass, '[[PBKDF2]]') !== 0)
+					echo '<div id="pass-message"><button id="pass-message-close" class="dash-fancy" title="Close">❌</button><h1>Warning</h1><p>You haven\'t upgraded to the newer (more secure) password management system.<br>To be more secure, please <a href="/changepassword.php">change your password</a>.</p></div>';
+			}
+		}
+	}
+	?>
+
 	<main>
 		<div id="local-save">
 			<div class="loader"></div>
 		</div>
 		<div id="server-save">
 			<?php
-			$conn = $data[0];
 			$sql = "SELECT note_id, title, enc_iv_title, enc_iv_content, content FROM note WHERE note_id IN ( SELECT note_id FROM owner WHERE user_email=? )";
 			$preparedStatementNotes = $conn->prepare($sql);
 

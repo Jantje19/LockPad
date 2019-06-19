@@ -328,3 +328,38 @@ main > div > div.note > div.markdown-body::-webkit-scrollbar-thumb:hover {
 	50% { opacity: .6; }
 	100% { opacity: .3; }
 }
+
+
+
+
+
+/* TMP */
+header {
+	z-index: 20;
+}
+div#pass-message {
+	left: 0;
+	top: 60px;
+	z-index: 5;
+	width: 100%;
+	padding: 20px 0;
+	position: absolute;
+	text-align: center;
+	background-color: white;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+div#pass-message h1 {
+	font-size: 2em;
+	padding: 10px 0;
+}
+
+div#pass-message p {
+	line-height: 1.4em;
+}
+
+div#pass-message button#pass-message-close {
+	top: 0;
+	right: 0;
+	position: absolute;
+}

@@ -16,10 +16,6 @@ if (isset($_POST['pass']))
 	$password = trim($_POST['pass']);
 else
 	invalidPost('pass');
-if (isset($_POST['pass-ver']))
-	$password_verification = trim($_POST['pass-ver']);
-else
-	invalidPost('pass-ver');
 if (isset($_POST['enc_token']))
 	$enc_token = trim($_POST['enc_token']);
 else
@@ -43,38 +39,33 @@ function sendMail($mail, $token) {
 }
 
 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-	if (strlen($password) > 0 && strlen($password_verification) > 0 && strlen($email) > 0) {
-		if ($password == $password_verification) {
-			include 'db_connect.php';
+	if (strlen($password) > 0 && strlen($email) > 0) {
+		include 'password_helper.php';
+		include 'db_connect.php';
 
-			$password = password_hash($password, PASSWORD_DEFAULT);
-			$preparedStatementUser = $conn->prepare("INSERT INTO user (email, password, enc_token, enc_iv) VALUES (?, ?, ?, ?)");
-			if ($preparedStatementUser) {
-				$preparedStatementUser->bind_param("ssss", $email, $password, $enc_token, $enc_iv);
-				$exec = $preparedStatementUser->execute();
-				$preparedStatementUser->close();
+		$password = prepareForDatabase($password);
+		$preparedStatementUser = $conn->prepare("INSERT INTO user (email, password, enc_token, enc_iv) VALUES (?, ?, ?, ?)");
+		if ($preparedStatementUser) {
+			$preparedStatementUser->bind_param("ssss", $email, $password, $enc_token, $enc_iv);
+			$exec = $preparedStatementUser->execute();
+			$preparedStatementUser->close();
 
-				if ($exec) {
-					$preparedStatementUnver = $conn->prepare("SELECT token FROM unverified_account WHERE user_email=?");
-					if ($preparedStatementUnver) {
-						$preparedStatementUnver->bind_param("s", $email);
-						if ($preparedStatementUnver->execute()) {
-							$preparedStatementUnver->bind_result($token);
-							$fetch = $preparedStatementUnver->fetch();
-							$preparedStatementUnver->close();
-							$conn->close();
+			if ($exec) {
+				$preparedStatementUnver = $conn->prepare("SELECT token FROM unverified_account WHERE user_email=?");
+				if ($preparedStatementUnver) {
+					$preparedStatementUnver->bind_param("s", $email);
+					if ($preparedStatementUnver->execute()) {
+						$preparedStatementUnver->bind_result($token);
+						$fetch = $preparedStatementUnver->fetch();
+						$preparedStatementUnver->close();
+						$conn->close();
 
-							if ($fetch) {
-								sendMail($email, $token);
-								echo '{"success": true}';
-								exit();
-							} else {
-								echo '{"success": false, "error": "Unable to execute SQL statement"}';
-								exit();
-							}
+						if ($fetch) {
+							sendMail($email, $token);
+							echo '{"success": true}';
+							exit();
 						} else {
 							echo '{"success": false, "error": "Unable to execute SQL statement"}';
-							$conn->close();
 							exit();
 						}
 					} else {
@@ -83,22 +74,22 @@ if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 						exit();
 					}
 				} else {
-					// echo '{"success": false, "error": "Unable to execute SQL statement"}';
-					echo '{"success": false, "error": "The provided email address is already registerd"}';
+					echo '{"success": false, "error": "Unable to execute SQL statement"}';
 					$conn->close();
 					exit();
 				}
 			} else {
-				echo '{"success": false, "error": "Unable to prepare SQL statement"}';
+				echo '{"success": false, "error": "The provided email address is already registerd"}';
 				$conn->close();
 				exit();
 			}
-
-			$conn->close();
 		} else {
-			echo '{"success": false, "error": "Passwords don\'t match"}';
+			echo '{"success": false, "error": "Unable to prepare SQL statement"}';
+			$conn->close();
 			exit();
 		}
+
+		$conn->close();
 	} else {
 		echo '{"success": false, "error": "A field is empty"}';
 		exit();

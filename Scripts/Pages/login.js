@@ -75,60 +75,79 @@ Promise.all([
 	// Handle submit evt
 	mainFormElem.addEventListener('submit', evt => {
 		setFormState(false);
-		phpPostRequest('login', {
-			email: emailElem.value.trim(),
-			pass: passElem.value.trim()
-		}).then(({ data, response }) => {
-			const successHandler = data => {
-				const { enc_token, enc_iv } = data.data;
 
-				worker.decrypt({
-					password: passElem.value.trim(),
-					data: enc_token,
-					iv: enc_iv
-				}).then(({ data }) => {
-					sessionStorage.setItem('enc_token', data);
-					window.location = '/dashboard.php';
-				}).catch(errHandler);
-			}
+		const password = passElem.value.trim();
+		const email = emailElem.value.trim();
 
-			if (data.success)
-				successHandler(data);
+		phpPostRequest('get_password_salt', { email }).then(passSalt => {
+			passSalt = passSalt.data;
+
+			if (!passSalt.success)
+				errHandler('Invalid email address');
 			else {
-				if (!data.twoFA)
-					errHandler(data.error);
-				else {
-					const twoFAForm = forms[1];
-					const inputElem = twoFAForm.getElementsByTagName('input')[0];
+				const handleTheRest = passHash => {
+					phpPostRequest('login', {
+						pass: passHash,
+						email
+					}).then(({ data, response }) => {
+						const successHandler = data => {
+							const { enc_token, enc_iv } = data.data;
 
-					twoFAForm.style.height = Math.round(mainFormElem.getBoundingClientRect().height) + 'px';
-					mainFormElem.style.opacity = '0';
-					mainFormElem.addEventListener('transitionend', evt => {
-						mainFormElem.style.display = 'none';
-						twoFAForm.style.display = 'block';
-						setTimeout(() => {
-							twoFAForm.style.opacity = '1';
-							inputElem.focus();
-							twoFAForm.addEventListener('submit', evt => {
-								const twoFaToken = inputElem.value.trim();
+							worker.decrypt({
+								data: enc_token,
+								iv: enc_iv,
+								password
+							}).then(({ data }) => {
+								sessionStorage.setItem('enc_token', data);
+								window.location = '/dashboard.php';
+							}).catch(errHandler);
+						}
 
-								if (twoFaToken.length > 0) {
-									setFormState(false, twoFAForm);
-									phpPostRequest('login', {
-										email: emailElem.value.trim(),
-										pass: passElem.value.trim(),
-										twoFA: twoFaToken
-									}).then(({ data, response }) => {
-										if (!data.success)
-											errHandler(data.error);
-										else
-											successHandler(data);
-									}).catch(errHandler);
-								}
-							}, { once: true });
-						}, 10);
-					}, { once: true });
+						if (data.success)
+							successHandler(data);
+						else {
+							if (!data.twoFA)
+								errHandler(data.error);
+							else {
+								const twoFAForm = forms[1];
+								const inputElem = twoFAForm.getElementsByTagName('input')[0];
+
+								twoFAForm.style.height = Math.round(mainFormElem.getBoundingClientRect().height) + 'px';
+								mainFormElem.style.opacity = '0';
+								mainFormElem.addEventListener('transitionend', evt => {
+									mainFormElem.style.display = 'none';
+									twoFAForm.style.display = 'block';
+									setTimeout(() => {
+										twoFAForm.style.opacity = '1';
+										inputElem.focus();
+										twoFAForm.addEventListener('submit', evt => {
+											const twoFaToken = inputElem.value.trim();
+
+											if (twoFaToken.length > 0) {
+												setFormState(false, twoFAForm);
+												phpPostRequest('login', {
+													twoFA: twoFaToken,
+													pass: passHash,
+													email,
+												}).then(({ data, response }) => {
+													if (!data.success)
+														errHandler(data.error);
+													else
+														successHandler(data);
+												}).catch(errHandler);
+											}
+										}, { once: true });
+									}, 10);
+								}, { once: true });
+							}
+						}
+					}).catch(errHandler);
 				}
+
+				if (passSalt.data === true)
+					hashPassword(password, worker, passSalt.salt).then(handleTheRest);
+				else
+					handleTheRest(password);
 			}
 		}).catch(errHandler);
 	}, { once: true });

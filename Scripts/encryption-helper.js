@@ -122,8 +122,8 @@ function buf2hex(buffer) {
 * @param {UInt8Array} salt [salt=random bytes]
 * @returns {Promise<[CryptoKey,UInt8Array]>}
 */
-function deriveKey(passphrase, salt) {
-	salt = salt || crypto.getRandomValues(new Uint8Array(64));
+function deriveKey(passphrase, salt, exportable = false) {
+	salt = salt || randomValues(64);
 
 	return crypto.subtle
 	.importKey("raw", str2buf(passphrase), "PBKDF2", false, ["deriveKey"])
@@ -132,7 +132,7 @@ function deriveKey(passphrase, salt) {
 			{ name: "PBKDF2", salt, iterations: 10000, hash: "SHA-512" },
 			key,
 			{ name: "AES-CBC", length: 256 },
-			false,
+			exportable,
 			["encrypt", "decrypt"],
 			),
 		)
@@ -217,6 +217,21 @@ const functions = {
 				data: buf2hex(await crypto.subtle.digest('SHA-512', str2buf(str)))
 			});
 		});
+	},
+
+	PBKDF2KeyExport: async data => {
+		if (!('pass' in data))
+			throw Error('No password...');
+
+		let {pass, salt} = data;
+
+		if (salt != null)
+			salt = hex2buf(salt);
+
+		const [derivenKey, newSalt] = await deriveKey(pass, salt, true);
+		return {
+			data: `${buf2hex(newSalt)}-${buf2hex(await crypto.subtle.exportKey('raw', derivenKey))}`
+		}
 	}
 }
 
