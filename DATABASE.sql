@@ -69,8 +69,7 @@ CREATE TABLE `owner` (
 
 CREATE TABLE `unverified_account` (
   `user_email` varchar(255) NOT NULL,
-  `token` varchar(15) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `token` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -85,7 +84,6 @@ CREATE TABLE `user` (
   `2FA_secret` varchar(32) DEFAULT NULL,
   `enc_token` varchar(255) NOT NULL,
   `enc_iv` varchar(255) NOT NULL,
-  `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `verified` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

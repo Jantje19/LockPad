@@ -5,7 +5,7 @@
 
 #frosted-glass > div h1 {
 	padding: 20px 0;
-	margin-bottom: 5%;
+	margin-bottom: .2em;
 }
 
 #frosted-glass > div > div {
@@ -16,14 +16,18 @@
 
 #frosted-glass > div > div p {
 	flex: 1;
-	width: 40vw;
 	margin: .5em 0;
 	display: block;
+	max-width: 400px;
 	padding: initial;
 	text-align: left;
 	font-weight: unset;
 	background-color: transparent;
 	color: var(--font-color-light);
+}
+
+#frosted-glass > div > div a {
+	text-decoration: underline;
 }
 
 #frosted-glass > div > div p:first-child {

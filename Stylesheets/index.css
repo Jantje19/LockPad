@@ -86,6 +86,10 @@ main > div p {
 	line-height: 1.7em;
 }
 
+main > div a {
+	color: #212121;
+}
+
 main > div img {
 	width: 80%;
 	height: auto;
@@ -112,12 +116,17 @@ main > div.splitview-container > div:last-child {
 	justify-content: flex-end;
 }
 
-main > div#about.splitview-container > div:last-child img {
+main > div#about > div:last-child img {
 	transform: rotate(10deg);
 }
 
-main > div#security.splitview-container > div:last-child img {
+main > div#security > div:last-child img {
 	border-radius: 100%;
+}
+
+main > div#security > div:first-child a {
+	font-size: 1.2em;
+	font-weight: bold;
 }
 
 main > div#opensource > div:first-child p {
@@ -138,6 +147,7 @@ main > div#opensource > div:first-child button {
 main > div#opensource > div:last-child a {
 	width: 100%;
 	display: block;
+	text-align: end;
 }
 
 

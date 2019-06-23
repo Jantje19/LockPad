@@ -1,7 +1,13 @@
 This project was an assignment for Fontys FHICT Web1.
+
 An implementation can be found [here](https://i409738.hera.fhict.nl/) for as long as I don't have any other assignments to be hosted on there (this site could be out of date with the repo).
+
 Below you can find the simple documentation belonging to the project.
+
 The (MySql) database creation script is called *DATABASE.sql*.
+
+You can read the security details [here](https://i409738.hera.fhict.nl/security.html)
+
 ----------
 
 # LockPad - WebApp
