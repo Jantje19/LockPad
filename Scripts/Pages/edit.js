@@ -15,8 +15,12 @@ Promise.all([
 	}),
 //
 ]).then(items => {
+	const saveTypeElem = document.getElementById('toggle-save-type');
+	const exportPopupElem = document.getElementById('export-popup');
+	const exportSaveBtn = document.getElementById('export-save');
 	const markdownElem = document.getElementById('markdown');
 	const txtAreaElem = document.getElementById('textarea');
+	const exportBtn = document.getElementById('export-btn');
 	const statusElem = document.getElementById('status');
 	const saveBtn = document.getElementById('save-btn');
 	const titleElem = document.getElementById('title');
@@ -76,6 +80,31 @@ Promise.all([
 		}).catch(err => {
 			markdownElem.innerHTML = `<i><b>There was an error:</b> ${err}</i>`;
 		});
+	}
+
+	// https://stackoverflow.com/a/30832210
+	const downloadFile = (data, filename, type = 'text/plain') => {
+		const file = new Blob([data], {type: type});
+
+		if (window.navigator.msSaveOrOpenBlob) // IE10+
+			window.navigator.msSaveOrOpenBlob(file, filename);
+		else { // Others
+			const a = document.createElement("a");
+			const url = URL.createObjectURL(file);
+
+			a.href = url;
+			a.style.opacity = 0;
+			a.download = filename;
+
+			document.body.appendChild(a);
+
+			a.click();
+
+			setTimeout(() => {
+				document.body.removeChild(a);
+				window.URL.revokeObjectURL(url);
+			}, 0);
+		}
 	}
 
 	// Check type
@@ -142,6 +171,7 @@ Promise.all([
 
 			txtAreaElem.removeAttribute('disabled');
 			titleElem.removeAttribute('disabled');
+			exportBtn.removeAttribute('disabled');
 			saveBtn.removeAttribute('disabled');
 
 			parseMarkdown();
@@ -150,6 +180,57 @@ Promise.all([
 
 	document.getElementById('cancel-btn').addEventListener('click', evt => {
 		window.location = '/dashboard.php';
+	});
+
+	exportBtn.addEventListener('click', evt => {
+		exportPopupElem.setAttribute('open', '');
+	});
+
+	exportPopupElem.addEventListener('click', evt => {
+		if (evt.currentTarget == evt.target)
+			exportPopupElem.removeAttribute('open');
+	});
+
+	exportSaveBtn.addEventListener('click', evt => {
+		if (!saveTypeElem.checked)
+			downloadFile(txtAreaElem.value, titleElem.value + '.txt');
+		else {
+			const promptData = prompt('What password should it be encrypted with?\n\nA long and complex password that is different from the password you use for this service (or any other service) is recommended');
+
+			if (promptData) {
+				encHelper.encrypt({
+					text: txtAreaElem.value.trim(),
+					password: promptData
+				}).then(data => {
+					const dataArr = data.data.split('-');
+					const exportObj = {
+						data: dataArr[1],
+						'key-info': {
+							iterations: 10000,
+							importType: 'raw',
+							hash: 'SHA-512',
+							name: 'AES-CBC',
+							type: 'PBKDF2',
+							length: 256,
+							salt: {
+								encodingType: 'hex',
+								data: dataArr[0]
+							}
+						},
+						'encryption-info': {
+							encodingType: 'hex',
+							name: 'AES-CBC',
+							iv: {
+								encodingType: 'hex',
+								data: data.iv
+							}
+						}
+					};
+
+					downloadFile(JSON.stringify(exportObj, null, '	'), titleElem.value + '.json');
+				}).catch(errorHandler);
+			}
+		}
 	});
 
 	saveBtn.addEventListener('click', async evt => {

@@ -17,6 +17,7 @@ $token = str_replace('➕', '+', $_GET['token']); // The '+' character has to be
 	<link href="Stylesheets/main.css" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="Stylesheets/markdown.css" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="Stylesheets/dashboard.css" rel="stylesheet" type="text/css" media="screen"/>
+	<link href="Stylesheets/edit.css" rel="stylesheet" type="text/css" media="screen"/>
 
 	<link rel="shortcut icon" href="/Assets/Icons/favicon.ico"/>
 	<link rel="shortcut icon" href="/Assets/Icons/favicon.ico" type="image/vnd.microsoft.icon"/>
@@ -62,10 +63,24 @@ $token = str_replace('➕', '+', $_GET['token']); // The '+' character has to be
 </head>
 <body>
 
+	<div id="export-popup">
+		<div>
+			<h2>Export</h2>
+			<div class="toggle">
+				<span>Plain</span>
+				<input id="toggle-save-type" type="checkbox">
+				<label for="toggle-save-type"></label>
+				<span>Encrypted</span>
+			</div>
+			<button class="fancy-btn" id="export-save">Save</button>
+		</div>
+	</div>
+
 	<header>
 		<div>
 			<button class="dash-fancy" title="Cancel" id="cancel-btn"><img src="Assets/ic_cancel_white.svg"></button>
 			<button class="dash-fancy" title="Save" id="save-btn" disabled="disabled"><img src="Assets/ic_save_white.svg"></button>
+			<button class="dash-fancy" title="Export" id="export-btn" disabled="disabled"><img src="Assets/ic_import_export_white.svg"></button>
 		</div>
 		<div>
 			<i id="status"></i>
@@ -103,10 +118,8 @@ $token = str_replace('➕', '+', $_GET['token']); // The '+' character has to be
 								$fetch = $preparedStatementData->fetch();
 								$preparedStatementData->close();
 
-								if ($fetch) {
-
+								if ($fetch)
 									$err = false;
-								}
 							}
 						}
 					}
@@ -131,6 +144,18 @@ $token = str_replace('➕', '+', $_GET['token']); // The '+' character has to be
 		</div>
 		<div id="markdown" class="markdown-body"><i>Parsed markdown will appear here</i></div>
 	</main>
+
+	<noscript>
+		<div>
+			<h1>JavaScript is disabled</h1>
+			<p>
+				JavaScript has to be anabled when using this site.<br>
+				<br>
+				Please enable JavaScript.<br>
+				You can find out how <a href="https://www.enable-javascript.com/">here</a>.
+			</p>
+		</div>
+	</noscript>
 
 </body>
 </html>
