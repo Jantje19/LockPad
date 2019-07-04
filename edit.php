@@ -53,6 +53,7 @@ $token = str_replace('➕', '+', $_GET['token']); // The '+' character has to be
 	<script type="text/javascript" src="/Scripts/localforage.min.js"></script>
 	<script type="text/javascript" src="/Scripts/workerPromisify.js"></script>
 	<script type="text/javascript" src="/Scripts/helpers.js"></script>
+	<script type="text/javascript" src="/Scripts/toast.js"></script>
 	<script type="text/javascript">
 		// Get the tokens from PHP
 		const token = '<?php echo $token ?>';

@@ -1,25 +1,6 @@
 let formElem, serverMessageElem;
 
 /*
-*	Get cryptographical random bytes
-*
-*	@param {int=16} length 	The amount of bytes returned
-*	@return {Uint8Array}
-*/
-const randomBytes = (length = 16) => {
-	return crypto.getRandomValues(new Uint8Array(length));
-}
-/*
-*	Get the bytes from an Uint8Array (perhaps from the function above) and base64 encode them
-*
-*	@param {Uint8Array} bytes 	The array with bytes you want to convert
-*	@return {String}
-*/
-const bytesToString = bytes => {
-	return btoa(String.fromCharCode(...bytes));
-}
-
-/*
 *	Enables or disables the elements inside the form element
 *
 *	@param {boolean=true} enabled 	The state
@@ -75,7 +56,7 @@ Promise.all([
 						hashPassword(password, worker),
 						// Create a new encryption token and encrypt that with the password
 						worker.encrypt({
-							text: bytesToString(randomBytes()),
+							text: randomToken(),
 							password
 						})
 					//

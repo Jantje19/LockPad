@@ -44,10 +44,12 @@ function check($shouldRedirect = true) {
 		}
 	}
 
-	$conn->close();
 	if (substr($_SERVER['REQUEST_URI'], 0, strlen('/login.php')) !== '/login.php' && $shouldRedirect) {
 		header('Location: /login.php?from=token_exp');
+		$conn->close();
 		exit();
 	}
+
+	return array($conn, null);
 }
 ?>

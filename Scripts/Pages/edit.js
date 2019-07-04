@@ -1,5 +1,3 @@
-const errorHandler = console.error;
-
 // Check session value
 if (sessionStorage.getItem('enc_token') === null)
 	window.location = '/login.php?from=token_exp';

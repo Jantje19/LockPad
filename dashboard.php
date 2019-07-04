@@ -49,6 +49,8 @@ $conn = $data[0];
 	<script type="text/javascript" src="/Scripts/localforage.min.js"></script>
 	<script type="text/javascript" src="/Scripts/workerPromisify.js"></script>
 	<script type="text/javascript" src="/Scripts/helpers.js"></script>
+	<script type="text/javascript" src="/Scripts/toast.js"></script>
+
 	<script type="text/javascript" src="/Scripts/Pages/dashboard.js"></script>
 
 </head>

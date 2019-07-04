@@ -6,7 +6,7 @@ const workerPromisify = worker => {
 
 	return new Promise((resolve, reject) => {
 		worker.onmessage = evt => {
-			if ('data' in evt.data && 'err' in evt.data.data)
+			if ('data' in evt.data && 'err' in evt.data.data && !('token' in evt.data))
 				reject(evt.data.data.err);
 			else if ('type' in evt.data && evt.data.type.toLowerCase() === 'getfunctions') {
 				const returnObj = {};
@@ -15,6 +15,7 @@ const workerPromisify = worker => {
 					returnObj[func] = data => {
 						return new Promise((res, rej) => {
 							const token = randomString();
+
 							worker.postMessage({
 								func: func,
 								token,

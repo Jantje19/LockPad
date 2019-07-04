@@ -12,10 +12,21 @@ window.addEventListener('beforeinstallprompt', e => {
 
 			deferredPrompt.prompt();
 			deferredPrompt.userChoice.then(choiceResult => {
-				if (choiceResult.outcome === 'accepted')
+				if (choiceResult.outcome === 'accepted') {
 					console.log('User accepted the A2HS prompt');
-				else
+					const toast = ToastManager.makeText('LockPad successfully added to your homescreen!');
+
+					setTimeout(() => {
+						toast.dismiss();
+					}, 10000);
+				} else {
 					console.log('User dismissed the A2HS prompt');
+					const toast = ToastManager.makeText('LockPad was not added to your homescreen');
+
+					setTimeout(() => {
+						toast.dismiss();
+					}, 10000);
+				}
 
 				deferredPrompt = null;
 			});
@@ -47,7 +58,6 @@ Promise.all([
 	const searchElem = document.getElementById('search');
 	const encryptionHelper = items[0];
 	const markdownParser = items[1];
-	const errorHandler = console.error;
 
 	/*
 	*	Check if an element is within another element
@@ -345,7 +355,7 @@ Promise.all([
 		localSaveElem.innerHTML = '<i>An error occured when retreiving the locally saved notes<i>';
 		console.error(err);
 	});
-});
+}).catch(errorHandler);
 
 
 // Service worker

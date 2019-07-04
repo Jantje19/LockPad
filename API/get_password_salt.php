@@ -12,12 +12,19 @@ if (isset($_POST['email']))
 else
 	invalidPost('email');
 
-include 'db_connect.php';
+include 'account_verifier.php';
+$data = check(false);
+$conn = $data[0];
+
 include 'password_helper.php';
 
-if (!checkCapcha()) {
-	echo '{"success": false, "error": "Invalid capcha"}';
-	exit();
+if ($data[1] === null) {
+	if (!checkCapcha()) {
+		echo '{"success": false, "error": "Invalid capcha"}';
+		exit();
+	}
+} else {
+	$email = $data[1];
 }
 
 $preparedStatement = $conn->prepare("SELECT password FROM user WHERE email=?");

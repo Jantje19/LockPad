@@ -28,6 +28,7 @@ const setMessage = msg => {
 *	@param {Error/String} err 	The error message
 */
 const errHandler = err => {
+	console.error(err);
 	serverMessageElem.style.color = '';
 	setMessage('An error occured: ' + err);
 	setFormState(true);

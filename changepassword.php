@@ -43,8 +43,9 @@ $data = check();
 	<meta name="theme-color" content="#27ae60">
 	<meta name="apple-mobile-web-app-status-bar-style" content="#27ae60"/>
 
-	<script type="text/javascript" src="/Scripts/helpers.js"></script>
 	<script type="text/javascript" src="/Scripts/workerPromisify.js"></script>
+	<script type="text/javascript" src="/Scripts/helpers.js"></script>
+
 	<script type="text/javascript" src="/Scripts/Pages/changepassword.js"></script>
 
 </head>

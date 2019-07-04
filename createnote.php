@@ -46,6 +46,8 @@ $data = check();
 
 	<script type="text/javascript" src="/Scripts/localforage.min.js"></script>
 	<script type="text/javascript" src="/Scripts/workerPromisify.js"></script>
+	<script type="text/javascript" src="/Scripts/toast.js"></script>
+
 	<script type="text/javascript" src="/Scripts/Pages/createnote.js"></script>
 
 </head>

@@ -29,7 +29,7 @@ include 'password_helper.php';
 include 'db_connect.php';
 
 function doAuth($token, $expdate, $enc_token, $enc_iv) {
-	setcookie("auth", $token, time() + 3600, "/");
+	setcookie("auth", $token, $expdate, "/");
 	echo '{"success": true, "data": { "enc_token": "' . $enc_token . '", "enc_iv": "' . $enc_iv . '" }}';
 	exit();
 }
@@ -103,7 +103,7 @@ if ($preparedStatement) {
 
 					$data = isAlreadyInAuthTable($conn, $email);
 					if ($data == false) {
-						$expdate = time() + 3600;
+						$expdate = time() + 3600 * 5;
 						$token = uniqid();
 
 						$preparedStatementToken = $conn->prepare("INSERT INTO auth_token (`token`, `user_email`, `exp_date`) VALUES (?, ?, FROM_UNIXTIME(?))");
