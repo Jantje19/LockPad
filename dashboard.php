@@ -73,6 +73,7 @@ $conn = $data[0];
 				<h3><?php echo $data[1]; ?></h3>
 				<a href="/changepassword.php"><button>Change password</button></a>
 				<a href="/setuptwofactorauthentication.php"><button>Setup 2FA-authentication</button></a>
+				<a href="/import.php"><button>Import notes</button></a>
 				<button id="logout-btn">Log out</button>
 			</div>
 		</div>

@@ -153,6 +153,8 @@ const newFunctions = {
 		if ('password' in data && 'text' in data) {
 			if (!('iv' in data))
 				data.iv = randomValues(16);
+			else if ((typeof data.iv).toLowerCase() == 'string')
+				data.iv = hex2buf(data.iv);
 
 			const [key, salt] = await deriveKey(data.password);
 			const ciphertext = await crypto.subtle.encrypt({ name: "AES-CBC", iv: data.iv }, key, str2buf(data.text));
@@ -192,7 +194,12 @@ const newFunctions = {
 }
 
 const functions = {
-	encrypt: newFunctions.encrypt,
+	encrypt: data => {
+		if (crypto && 'subtle' in crypto && 'encrypt' in crypto.subtle)
+			return newFunctions.encrypt(data);
+		else
+			return oldFunctions.encrypt(data);
+	},
 
 	decrypt: data => {
 		if (!data.data)

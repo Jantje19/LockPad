@@ -5,8 +5,10 @@
 showdown.setFlavor('github');
 const parser = new showdown.Converter({
 	openLinksInNewWindow: true,
+	simplifiedAutoLink: true,
+	strikethrough: true,
 	tasklists: true,
-	tables: true
+	tables: true,
 });
 
 const functions = {

@@ -181,7 +181,10 @@ Promise.all([
 	});
 
 	exportBtn.addEventListener('click', evt => {
-		exportPopupElem.setAttribute('open', '');
+		if (titleElem.value.trim().length > 0)
+			exportPopupElem.setAttribute('open', '');
+		else
+			errorHandler('The note must have a title to be exported');
 	});
 
 	exportPopupElem.addEventListener('click', evt => {

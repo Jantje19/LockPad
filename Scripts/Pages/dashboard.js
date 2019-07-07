@@ -331,9 +331,17 @@ Promise.all([
 		});
 	});
 
-	/*document.getElementById('pass-message-close').addEventListener('click', evt => {
-		evt.currentTarget.parentNode.remove();
-	}, { once: true });*/
+	document.addEventListener('keydown', evt => {
+		if (evt.ctrlKey && evt.key == 'a') {
+			evt.preventDefault();
+			if (isDescendant(localSaveElem, evt.target)) {
+				Array.from(localSaveElem.getElementsByTagName('input')).forEach(elem => {
+					if (evt.target != elem)
+						elem.checked = !elem.checked;
+				});
+			}
+		}
+	});
 
 	localforage.getItem('local').then(obj => {
 		if (!obj)
