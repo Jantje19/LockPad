@@ -17,6 +17,8 @@ if (isset($data)) {
 	<link href="/Stylesheets/main.css" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="/Stylesheets/index.css" rel="stylesheet" type="text/css" media="screen"/>
 
+	<link href="https://fonts.googleapis.com/css?family=Roboto:900&display=swap" rel="stylesheet">
+
 	<link rel="shortcut icon" href="/Assets/Icons/favicon.ico"/>
 	<link rel="shortcut icon" href="/Assets/Icons/favicon.ico" type="image/vnd.microsoft.icon"/>
 
