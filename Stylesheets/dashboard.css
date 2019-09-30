@@ -39,6 +39,10 @@ button#addtohomescreen-btn {
 }
 
 /* Main */
+body {
+	overflow-x: hidden;
+}
+
 header {
 	padding: 5px;
 	display: grid;
@@ -82,11 +86,17 @@ header > div > div#user-popup {
 	top: 70px;
 	right: 5px;
 	z-index: 100;
-	display: none;
 	padding: 5px 10px;
 	position: absolute;
+	will-change: transform;
 	background-color: white;
+	transform: translateX(110%);
+	transition: transform .5s ease;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+header > div > div#user-popup[open] {
+	transform: translateX(0px);
 }
 
 header > div > div#user-popup > h3 {
@@ -223,6 +233,11 @@ main > div > div.note:not([disabled]):not([grow]):hover, main > div > div.note:n
 	box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
+main > div > div.note > * {
+	will-change: transform;
+	transition: transform .3s ease;
+}
+
 main > div > div.note > h3 {
 	margin: 0;
 	overflow: hidden;
@@ -259,6 +274,23 @@ main > div > div.note > div.markdown-body {
 	--scale: .6;
 	overflow-y: auto;
 	height: calc(100% - (1.3em + 10px + 1px));
+}
+
+/* Transition */
+main > div > div.note[in-transition] > h3 {
+	transform: translateY(-135%);
+}
+
+main > div > div.note[in-transition] > input[type=checkbox] {
+	transform: translateX(-190%);
+}
+
+main > div > div.note[in-transition] > button {
+	transform: translateX(100%);
+}
+
+main > div > div.note[in-transition] > div.markdown-body {
+	transform: translateY(120%);
 }
 
 /* Scrollbars */
