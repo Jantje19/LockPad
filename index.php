@@ -2,7 +2,7 @@
 include 'API/account_verifier.php';
 $data = check(false);
 
-if (isset($data)) {
+if ($data[1] !== null) {
 	header('Location: /dashboard.php');
 	exit();
 }
