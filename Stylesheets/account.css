@@ -48,13 +48,13 @@ main, #frosted-glass {
 	box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.2);
 }
 
-#frosted-glass > div {
+#frosted-glass>div {
 	z-index: 1;
 	width: 100%;
 	text-align: center;
 }
 
-#frosted-glass > div h1 {
+#frosted-glass>div h1 {
 	padding: 10% 0;
 	font-size: 2em;
 	font-weight: bold;
@@ -62,14 +62,14 @@ main, #frosted-glass {
 	color: var(--font-color-light);
 }
 
-#frosted-glass > div p {
+#frosted-glass>div p {
 	font-size: 1.4em;
 	margin-top: -10%;
 	margin-bottom: 5%;
 	color: var(--font-color-light);
 }
 
-#frosted-glass > div p#server_message {
+#frosted-glass>div p#server_message {
 	padding: 5%;
 	display: none;
 	font-size: 1em;
@@ -78,33 +78,33 @@ main, #frosted-glass {
 	color: var(--accent-color);
 }
 
-#frosted-glass > div > a {
+#frosted-glass>div>a {
 	color: var(--font-color-light);
 }
 
-#frosted-glass > div > form {
+#frosted-glass>div>form {
 	margin: 0 20%;
 	text-align: center;
 	will-change: opacity;
 	transition: opacity .3s ease;
 }
 
-#frosted-glass > div > form#twoFAForm {
+#frosted-glass>div>form#twoFAForm {
 	opacity: 0;
 	display: none;
 }
 
-#frosted-glass > div > form > * {
+#frosted-glass>div>form>* {
 	width: 100%;
 	margin: 5% 0;
 	transition: opacity .3s ease;
 }
 
-#frosted-glass > div > form > *:disabled {
+#frosted-glass>div>form>*:disabled {
 	opacity: .3;
 }
 
-#frosted-glass > div > form > input {
+#frosted-glass>div>form>input {
 	border: none;
 	padding: 5% 0;
 	text-align: center;
@@ -114,17 +114,17 @@ main, #frosted-glass {
 	transition: background-color .3s ease, opacity .3s ease;
 }
 
-#frosted-glass > div > form > input:focus {
+#frosted-glass>div>form>input:focus {
 	background-color: white;
 }
 
-#frosted-glass > div > form > button {
+#frosted-glass>div>form>button {
 	margin: 0;
 	margin: 10% 0;
 	display: block;
 }
 
-#frosted-glass > div > form > .g-recaptcha > div {
+#frosted-glass>div>form>.g-recaptcha>div {
 	margin-left: -25%;
 }
 
@@ -133,5 +133,17 @@ main, #frosted-glass {
 		width: 80vw;
 		height: 70vh;
 		max-width: unset;
+	}
+}
+
+@supports (backdrop-filter: blur(10px)) {
+	#frosted-glass {
+		background: none;
+		backdrop-filter: blur(10px);
+		background-color: rgba(255, 255, 255, 0.3);
+	}
+	#frosted-glass:after {
+		content: none;
+		display: none;
 	}
 }
